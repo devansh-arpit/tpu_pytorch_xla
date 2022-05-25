@@ -58,8 +58,10 @@ Delete the pod use command: `kubectl delete job sfr-tpu-darpit3-8-2`
 
 `python mnist_pytorch_xla.py`
 
+Code runs!
 
-## Errors/Problems I experienced during the setup process:
+
+## Errors/Problems I experienced before arriving at the above steps/yaml/code:
 
 1. I faced an error: 
 
