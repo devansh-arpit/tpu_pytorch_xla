@@ -28,14 +28,17 @@ A step-by-step guide to setting up a TPU pod, and running your first Pytorch/XLA
 `kubectl get pods`
 
 It will look something like this once the container is running:
-![Alt text](images/get_pods.png?raw=true "")
+
+<img src="images/get_pods.png" width="500">
 
 8. Once created, to connect to the pod, execute: 
 
 `kubectl exec sfr-tpu-darpit3-8-2-pgkmw -i -t -- bash`
 
 9. To delete the pod, note that TPU pods are deleted by jobID. To get the jobID, execute: kubectl get jobs. It will look like this:
-![Alt text](images/get_jobs.png?raw=true "")
+
+<img src="images/get_jobs.png" width="500">
+
 
 Delete the pod use command: `kubectl delete job sfr-tpu-darpit3-8-2`
 
