@@ -1,0 +1,60 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: sfr-tpu-darpit3-8-pod1
+  namespace: sfr-ns-darpit
+spec:
+  template:
+    metadata:
+      annotations:
+        tf-version.cloud-tpus.google.com: "pytorch-1.9"  # supported versions (https://cloud.google.com/tpu/docs/supported-versions)
+    spec:
+      volumes:
+        - name: sfr-home-pv-darpit
+          persistentVolumeClaim:
+            claimName: sfr-home-pvc-darpit
+        - name: sfr-share-pv-darpit
+          persistentVolumeClaim:
+            claimName: sfr-share-pvc-darpit
+        - name: dshm
+          emptyDir:
+            medium: Memory
+      restartPolicy: Never
+      containers:
+      - name: pytorch-tpu-darpit-interactive
+        image: gcr.io/tpu-pytorch/xla:r1.9_3.7
+        #image: gcr.io/tpu-pytorch/xla:r1.5
+        command: ["sleep", "infinity"]
+        env:
+          # The Google Cloud Storage location for data and models
+        - name: DATA_BUCKET
+          value: "gs://sfr-tpu-prem2-bucket"
+        - name: MODEL_BUCKET
+          value: "gs://sfr-tpu-prem2-bucket"
+        resources:
+          limits:
+            # Request a single v3-8 Cloud TPU device to train the model.
+            # A single v3-8 Cloud TPU device consists of 4 chips, each of which
+            # has 2 cores, so there are 8 cores in total.
+            cloud-tpus.google.com/v3: 8
+            cpu: "31"
+            memory: 200G
+          requests:
+            cpu: "31"
+            memory: 200G
+        volumeMounts:
+          - name: sfr-home-pv-darpit
+            mountPath: "/export/home"
+          - name: sfr-share-pv-darpit
+            mountPath: "/export/share"
+          - mountPath: /dev/shm
+            name: dshm
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: sfr-node-type
+                operator: In
+                values:
+                - standard64
