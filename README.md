@@ -15,7 +15,7 @@ A step-by-step guide to setting up a TPU pod, and running your first Pytorch/XLA
 4. Once you see your username on the active user namespace, connect to it using: 
 `kubens sfr-ns-<userID>`
 
-5. Different from GCP setup, you don’t need to write your own Dockerfile. Existing Docker images are used in the yaml file for instantiating TPU pods. Pytorch version you want to use needs to be consistent at two places in the yaml file. See `tpu3-8.yaml` above. In this file, replace the `name` field in the `metadata` to your a name of your choice. And replace `darpit` with your userID everywhere in the file.
+5. Instead of writing our own Dockerfile, we will use existing Docker images for instantiating TPU pods. Pytorch version you want to use needs to be consistent at two places in the yaml file. See `tpu3-8.yaml` above. In this file, replace the `name` field in the `metadata` to your a name of your choice. And replace `darpit` with your userID everywhere in the file.
   
   Notice line 10 and 25 in the file. Line 10 specifies "pytorch-1.9", and line 25 specifies an existing docker image to be used. The docker image name specifies r1.9_3.7. Here 1.9 refers to the Pytorch version, and 3.7 refers to the Python version. Possible Pytorch versions that can be used in line 10 can be found [here](https://cloud.google.com/tpu/docs/supported-tpu-versions). The possible docker images that can be used can be found [here](https://github.com/pytorch/xla/). The version specified in the two must match. Note that the latter link does not exhaustively list all the docker images available. You can typing the link (eg. `gcr.io/tpu-pytorch/xla:r1.9_3.7`) in your browser and check if that image exists.
 
