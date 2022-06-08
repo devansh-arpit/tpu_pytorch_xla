@@ -1,12 +1,12 @@
 # Define Parameters
 FLAGS = {}
 FLAGS['datadir'] = "/home/darpit/datasets/mnist/"
-FLAGS['batch_size'] = 128
-FLAGS['num_workers'] = 1
+FLAGS['batch_size'] = 128 # per TPU batch size. So when using v3-32 pod, the effective batch size is 128*32
+FLAGS['num_workers'] = 8
 FLAGS['learning_rate'] = 0.01
 FLAGS['momentum'] = 0.5
 FLAGS['num_epochs'] = 10
-FLAGS['num_cores'] = 8
+FLAGS['num_cores'] = 8 # number of cores per worker. Each TPU worker always has 8 cores.
 FLAGS['log_steps'] = 20
 FLAGS['metrics_debug'] = False
 
@@ -153,9 +153,6 @@ def _mp_fn(rank, flags):
     FLAGS = flags
     torch.set_default_tensor_type('torch.FloatTensor')
     accuracy, data, pred, target = train_mnist()
-    # if rank == 0:
-    #   # Retrieve tensors that are on TPU core 0 and plot.
-    #   plot_results(data.cpu(), pred.cpu(), target.cpu())
 
 xmp.spawn(_mp_fn, args=(FLAGS,), nprocs=FLAGS['num_cores'],
           start_method='fork')
