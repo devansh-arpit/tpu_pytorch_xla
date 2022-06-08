@@ -1,6 +1,6 @@
 # Define Parameters
 FLAGS = {}
-FLAGS['datadir'] = "/export/home/datasets/mnist/"
+FLAGS['datadir'] = "/home/darpit/datasets/mnist/"
 FLAGS['batch_size'] = 128
 FLAGS['num_workers'] = 1
 FLAGS['learning_rate'] = 0.01
