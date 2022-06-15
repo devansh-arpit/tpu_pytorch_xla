@@ -1,6 +1,6 @@
 # Define Parameters
 FLAGS = {}
-FLAGS['datadir'] = "/export/home/datasets/mnist/"
+FLAGS['datadir'] = "/home/darpit/datasets/mnist/"
 FLAGS['batch_size'] = 128 # per TPU batch size. So when using v3-32 pod, the effective batch size is 128*32
 FLAGS['num_workers'] = 8
 FLAGS['learning_rate'] = 0.01
